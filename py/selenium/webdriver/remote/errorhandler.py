@@ -158,8 +158,15 @@ class ErrorHandler(object):
             exception_class = MoveTargetOutOfBoundsException
         else:
             exception_class = WebDriverException
+<<<<<<< HEAD
 
 
+=======
+        value = response.get('value', None)
+        message = ''
+        screen = None
+        stacktrace = None
+>>>>>>> Update Errorhandling to handle spec changes
         if value:
             if isinstance(value, basestring):
                 if exception_class == ErrorInResponseException:
