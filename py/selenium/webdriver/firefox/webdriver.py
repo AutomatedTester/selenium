@@ -37,7 +37,11 @@ class WebDriver(RemoteWebDriver):
     # There is no native event support on Mac
     NATIVE_EVENTS_ALLOWED = sys.platform != "darwin"
 
+<<<<<<< HEAD
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+=======
+    def __init__(self, firefox_profile=None, firefox_binary='/Users/dburns/development/mozilla/mozilla-inbound/obj-ff-dbg/dist/Nightly.app/Contents/MacOS/firefox', timeout=30,
+>>>>>>> Add service handler and minimal update to driver to use service
                  capabilities=None, proxy=None, executable_path='wires'):
 
         self.binary = firefox_binary
@@ -72,9 +76,11 @@ class WebDriver(RemoteWebDriver):
             if proxy is not None:
                 proxy.add_to_capabilities(capabilities)
 
-            RemoteWebDriver.__init__(self,
-            command_executor=ExtensionConnection("127.0.0.1", self.profile,
-            self.binary, timeout),
+        self.service = Service(executable_path, firefox_binary=self.binary)
+        self.service.start()
+
+        RemoteWebDriver.__init__(self,
+            command_executor=self.service.service_url,
             desired_capabilities=capabilities,
             keep_alive=True)
 
@@ -89,6 +95,7 @@ class WebDriver(RemoteWebDriver):
             # Happens if Firefox shutsdown before we've read the response from
             # the socket.
             pass
+<<<<<<< HEAD
         if "marionette" in self.capabilities and self.capabilities['marionette'] is True:
             self.service.stop()
         else:
@@ -98,6 +105,15 @@ class WebDriver(RemoteWebDriver):
                     shutil.rmtree(self.profile.tempfolder)
             except Exception as e:
                 print(str(e))
+=======
+        self.service.stop()
+        '''try:
+            shutil.rmtree(self.profile.path)
+            if self.profile.tempfolder is not None:
+                shutil.rmtree(self.profile.tempfolder)
+        except Exception as e:
+            print(str(e))'''
+>>>>>>> Add service handler and minimal update to driver to use service
 
     @property
     def firefox_profile(self):
