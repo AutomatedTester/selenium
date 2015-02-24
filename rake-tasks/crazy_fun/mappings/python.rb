@@ -160,6 +160,7 @@ module Python
           ignores += " and " + ENV['method'] if ENV['method']
           pytest_args += ["-k=\"" + ignores + "\""]
           pytest_args += ["--junitxml=build/test_logs/python-#{browser}-#{Time.now.to_i}.xml"]
+          pytest_args += ["-s"]
           mkdir_p "build/test_logs"
           sh pytest_args.join(' '), :verbose => true
         end
