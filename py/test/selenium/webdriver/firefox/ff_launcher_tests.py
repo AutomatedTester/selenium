@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+'''
 import unittest
 import logging
 from selenium import webdriver
@@ -43,4 +44,4 @@ class FirefoxLauncherTests (unittest.TestCase):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     unittest.main()
-
+'''
