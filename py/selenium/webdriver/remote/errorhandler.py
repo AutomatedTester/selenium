@@ -163,8 +163,8 @@ class ErrorHandler(object):
 
 =======
         value = response.get('value', None)
-        message = ''
-        screen = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
         stacktrace = None
 >>>>>>> Update Errorhandling to handle spec changes
         if value:
