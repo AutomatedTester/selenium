@@ -87,8 +87,20 @@ class ErrorHandler(object):
 
         :Raises: If the response contains an error message.
         """
+
         status = response.get('status', None)
-        if status is None or status == ErrorCode.SUCCESS:
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json:
+                import json
+                value = json.loads(value_json)
+                status = value['status']
+                message = value['message']
+        if status is None:
             return
 
         value = None
@@ -159,6 +171,7 @@ class ErrorHandler(object):
         else:
             exception_class = WebDriverException
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
@@ -167,6 +180,10 @@ class ErrorHandler(object):
         screen = response.get("screen", "")
         stacktrace = None
 >>>>>>> Update Errorhandling to handle spec changes
+=======
+
+
+>>>>>>> Update error handling to be compliant with w3c webdriver
         if value:
             if isinstance(value, basestring):
                 if exception_class == ErrorInResponseException:
