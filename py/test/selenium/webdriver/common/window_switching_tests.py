@@ -158,7 +158,7 @@ class WindowSwitchingTests(unittest.TestCase):
         self.driver.find_element_by_name("windowThree").click()
 
         handles = self.driver.window_handles
-        handles.remove(current)
+        handles.remove(currentHandle)
 
         self.driver.switch_to.window(handles[0])
 
