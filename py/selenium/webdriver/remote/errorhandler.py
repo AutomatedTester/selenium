@@ -88,7 +88,18 @@ class ErrorHandler(object):
         :Raises: If the response contains an error message.
         """
         status = response.get('status', None)
-        if status is None or status == ErrorCode.SUCCESS:
+        value = None
+        message = response.get("message", "")
+        screen = response.get("screen", "")
+        stacktrace = None
+        if isinstance(status, int):
+            value_json = response.get('value', None)
+            if value_json:
+                import json
+                value = json.loads(value_json)
+                status = value['status']
+                message = value['message']
+        if status is None:
             return
 
         value = None
@@ -144,10 +155,8 @@ class ErrorHandler(object):
             exception_class = MoveTargetOutOfBoundsException
         else:
             exception_class = WebDriverException
-        value = response.get('value', None)
-        message = response.get("message", "")
-        screen = response.get("screen", "")
-        stacktrace = None
+
+
         if value:
             if isinstance(value, basestring):
                 if exception_class == ErrorInResponseException:
