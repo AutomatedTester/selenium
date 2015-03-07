@@ -340,29 +340,46 @@ class WebElement(object):
     @property
     def size(self):
         """The size of the element."""
-        size = self._execute(Command.GET_ELEMENT_SIZE)['value']
-        new_size = {}
-        new_size["height"] = size["height"]
-        new_size["width"] = size["width"]
+        size = self._execute(Command.GET_ELEMENT_RECT)
+        if size['value'] is not None:
+            new_size = {}
+            new_size["height"] = size["height"]
+            new_size["width"] = size["width"]
+        else:
+            new_size = {}
+            new_size["height"] = size["height"]
+            new_size["width"] = size["width"]
         return new_size
 
     def value_of_css_property(self, property_name):
         """The value of a CSS property."""
-        return self._execute(Command.GET_ELEMENT_VALUE_OF_CSS_PROPERTY,
-                        {'propertyName': property_name})['value']
+        result = self._execute(Command.GET_ELEMENT_VALUE_OF_CSS_PROPERTY,
+                        {'propertyName': property_name})
+        if result['value'] is not None:
+            return result['value']
+        else:
+            return result
 
     @property
     def location(self):
         """The location of the element in the renderable canvas."""
-        old_loc = self._execute(Command.GET_ELEMENT_LOCATION)['value']
-        new_loc = {"x": old_loc['x'],
-                   "y": old_loc['y']}
+        old_loc = self._execute(Command.GET_ELEMENT_RECT)
+        if old_loc['value'] is not None:
+            new_loc = {"x": old_loc['value']['x'],
+                       "y": old_loc['value']['y']}
+        else:
+            new_loc = {"x": old_loc['x'],
+                       "y": old_loc['y']}
         return new_loc
 
     @property
     def rect(self):
         """A dictionary with the size and location of the element."""
-        return self._execute(Command.GET_ELEMENT_RECT)['value']
+        result = self._execute(Command.GET_ELEMENT_RECT)
+        if result['value'] is not None:
+            return result['value']
+        else:
+            return result
 
     @property
     def screenshot_as_base64(self):
