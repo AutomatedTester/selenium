@@ -343,8 +343,8 @@ class WebElement(object):
         size = self._execute(Command.GET_ELEMENT_RECT)
         if size['value'] is not None:
             new_size = {}
-            new_size["height"] = size["height"]
-            new_size["width"] = size["width"]
+            new_size["height"] = size['value']["height"]
+            new_size["width"] = size['value']["width"]
         else:
             new_size = {}
             new_size["height"] = size["height"]
